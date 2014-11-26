@@ -3,10 +3,11 @@ $(function() {
  
       // From http://www.whatwg.org/specs/web-apps/current-work/multipage/states-of-the-type-attribute.html#e-mail-state-%28type=email%29
       emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
-      name = $( "#name" ),
+      // name = $( "#name" ),
       email = $( "#email" ),
       password = $( "#password" ),
-      allFields = $( [] ).add( name ).add( email ).add( password ),
+      // allFields = $( [] ).add( name ).add( email ).add( password ),
+      allFields = $( [] ).add( email ).add( password ),
       tips = $( ".validateTips" );
  
     function updateTips( t ) {
@@ -38,27 +39,32 @@ $(function() {
         return true;
       }
     }
- 
-    function addUser() {
+
+    function login(){
       var valid = true;
       allFields.removeClass( "ui-state-error" );
  
-      valid = valid && checkLength( name, "username", 3, 16 );
+      // valid = valid && checkLength( name, "username", 3, 16 );
       valid = valid && checkLength( email, "email", 6, 80 );
       valid = valid && checkLength( password, "password", 5, 16 );
  
-      valid = valid && checkRegexp( name, /^[a-z]([0-9a-z_\s])+$/i, "Username may consist of a-z, 0-9, underscores, spaces and must begin with a letter." );
-      valid = valid && checkRegexp( email, emailRegex, "eg. ui@jquery.com" );
+      // valid = valid && checkRegexp( name, /^[a-z]([0-9a-z_\s])+$/i, "Username may consist of a-z, 0-9, underscores, spaces and must begin with a letter." );
+      valid = valid && checkRegexp( email, emailRegex, "eg. test@iona.com" );
       valid = valid && checkRegexp( password, /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
  
       if ( valid ) {
-        // $( "#users tbody" ).append( "<tr>" +
-        //   "<td>" + name.val() + "</td>" +
-        //   "<td>" + email.val() + "</td>" +
-        //   "<td>" + password.val() + "</td>" +
-        // "</tr>" );
-        alert("It works...." + name.val());
-        dialog.dialog( "close" );
+        
+
+        $.post("login.php",{email : email.val(), password:password.val()}, function(data, textStatus) {
+          if (data=='1') {
+            location.reload();
+            dialog.dialog( "close" );
+          }else{updateTips("Login Failure Please try again");}
+
+          
+        } );
+        
+      
       }
       return valid;
     }
@@ -69,7 +75,8 @@ $(function() {
       width: 350,
       modal: true,
       buttons: {
-        "Sign In": addUser,
+        // "Sign Up": addUser,
+        "Sign In":login,
         Cancel: function() {
           dialog.dialog( "close" );
         }
@@ -89,3 +96,13 @@ $(function() {
       dialog.dialog( "open" );
     });
   });
+// End of Sign In Button Function
+
+
+$(window).scroll(function(event) {
+   $("#nav").css("margin-left", 0-$(document).scrollLeft());
+});
+
+// $(window).scroll(function(){
+//   $("#nav").stop().animate({"marginTop": ($(window).scrollTop()) + "px", "marginLeft":($(window).scrollLeft()) + "px"}, "slow" );
+// });

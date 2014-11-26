@@ -1,4 +1,7 @@
-
+<?php
+    include("DatabaseDetails.inc");
+    session_start();
+?>
 <html>
     <head>
         <title>Economics Club</title>
@@ -12,16 +15,7 @@
         <link rel='stylesheet' type='text/CSS' href='CSS/homeCSS.css'>
         
         <style>
-            #dialog-form {
-                font-size: 12px;
-            }
-            #create-user {
-                float: right;
-                width: 80px;
-                padding: 0px;
-                margin-top: 5px;
-                
-            }
+            
         </style>
         
     </head>
@@ -31,11 +25,25 @@
         <div id="container">
            
             <div id="header" style="position: relative; left: 0; top: 0;">
+
                 <a href="HomePageEC.html">
                     <img id= 'logo' src="Images/Logo.png" alt = 'Logo'>
                 </a>
-                <button id="create-user"><font size="1">Sign In</font></button>
+
+                <?php
+                    if(isset($_SESSION['UserId'])){
+                        printf("<div style='float: right'>
+            <a href=\"logout.php\"><button type=\"button\" >Log Out</button></a>
+            </div>");
+                        
+                    }else{
+                        printf("<button id=\"create-user\"><font size=\"1\">Sign In</font></button>");
+                    }
+
+                ?>
+
                 <div id="titlebar"> <center><b>Economics Club</b></center> </div>
+
 <!--                <button id="create-user">Sign In</button>-->
                 
                 <div id="dialog-form" title="Sign In">
@@ -44,8 +52,8 @@
                     <form>
                         <fieldset>
                             
-                            <label for="name">Name:&nbsp;</label>
-                            <input type="text" name="name" id="name" value="" class="text ui-widget-content ui-corner-all"><br><br>
+                            <!-- <label for="name">Name:&nbsp;</label>
+                            <input type="text" name="name" id="name" value="" class="text ui-widget-content ui-corner-all"><br><br> -->
                             
                             <label for="email">Email:&nbsp;</label>
                             <input type="text" name="email" id="email" value="" class="text ui-widget-content ui-corner-all"><br><br>
@@ -70,9 +78,9 @@
                     <hr>
                     <div>
                         <ul>
-                            <li><a href="HomePageEC.html">Home</a></li>
-                            <li><a href="#">Club Officials</a></li>
-                            <li><a href="#">Events</a></li>
+                            <li><a href="HomePageEC.php">Home</a></li>
+                            <li><a href="Officials.php">Club Officials</a></li>
+                            <li><a href="Schedule.php">Events</a></li>
                             <li><a href="#">Store</a></li>
                         </ul>
                         
@@ -95,7 +103,7 @@
                     Picture for here...... or something and more info
      
                 </p>
-                <img src="Images/ECGroup.jpg" style="width: 500px; height:450px">
+                <img src="Images/ECGroup.jpg" style="width: 500px; height:450px;">
             
             
             </div>
